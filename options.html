@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="options.css">
+    <link rel="stylesheet" href="dropdown.css">
+</head>
+<body>
+<div class="form-control">
+    <label>Server Options</label>
+    <label class="server" for="server_dev"><input type="checkbox" class="server_option_checkbox" name="server_dev" id="server_dev">Dev</label>
+    <label class="server" for="server_stage"><input type="checkbox" class="server_option_checkbox" name="server_stage" id="server_stage">Stage</label>
+    <label class="server" for="server_pre_prod"><input type="checkbox" class="server_option_checkbox" name="server_pre_prod" id="server_pre_prod">Pre Prod</label>
+    <label class="server" for="server_prod"><input type="checkbox" class="server_option_checkbox" name="server_prod" id="server_prod">Prod</label>
+</div>
+<div class="form-control">
+    <label for="environment">Default Server (when opened outside CG)</label>
+    <select name="environment" id="environment" class="environment ng-pristine ng-valid ng-not-empty ng-touched">
+        <option label="Dev" value="dev" selected="selected" id="default_server_option_dev">Dev</option>
+        <option label="Stage" value="stage" id="default_server_option_stage">Stage</option>
+        <option label="Pre-prod" value="pre-prod" id="default_server_option_pre_prod">Pre-prod</option>
+        <option label="Prod" value="prod" id="default_server_option_prod">Prod</option>
+    </select>
+</div>
+<div class="form-control">
+    <label for="first_name">First Name</label>
+    <input type="text" class="first_name" name="first_name" id="first_name">
+</div>
+<div class="form-control">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="last_name" name="last_name" id="last_name">
+</div>
+<div class="form-control">
+    <label for="email">Email</label>
+    <input type="text" class="email" name="email" id="email">
+</div>
+<div class="form-control">
+    <label for="password">Password</label>
+    <input type="password" class="password" name="password" id="password">
+</div>
+</body>
+<script src="options.storage.js"></script>
+<script src="options.js"></script>
+</html>

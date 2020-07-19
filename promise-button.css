@@ -1,0 +1,47 @@
+@-webkit-keyframes opacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@-moz-keyframes opacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+.promise-button .pb-progress .dots span {
+	-webkit-animation-name: opacity;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-name: opacity;
+	-moz-animation-duration: 1s;
+	-moz-animation-iteration-count: infinite;
+}
+.promise-button .pb-progress .dots span:nth-child(2) {
+	-webkit-animation-delay: 100ms;
+	-moz-animation-delay: 100ms;
+}
+.promise-button .pb-progress .dots span:nth-child(3) {
+	-webkit-animation-delay: 300ms;
+	-moz-animation-delay: 300ms;
+}
+.promise-button .pb {
+	opacity: 1;
+}
+.promise-button .pb.ng-hide {
+	opacity: 0;
+}
+.promise-button .pb.pb-success.ng-hide-add,
+.promise-button .pb.pb-error.ng-hide-add {
+	transition: all linear 0.5s;
+	-moz-transition: all linear 0.5s;
+	-webkit-transition: all linear 0.5s;
+}
+.promise-button .pb .icon {
+	margin-left: 5px;
+}

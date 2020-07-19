@@ -1,0 +1,37 @@
+{
+  "name": "CG Client Login",
+  "version": "1.0",
+  "description": "Login as CG client",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/cleargov-logo-icon-16.png",
+      "32": "images/cleargov-logo-icon-32.png",
+      "48": "images/cleargov-logo-icon-48.png",
+      "128": "images/cleargov-logo-icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "images/cleargov-logo-icon-16.png",
+    "32": "images/cleargov-logo-icon-32.png",
+    "48": "images/cleargov-logo-icon-48.png",
+    "128": "images/cleargov-logo-icon-128.png"
+  },
+  "manifest_version": 2
+}

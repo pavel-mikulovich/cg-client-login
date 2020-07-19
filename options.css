@@ -1,0 +1,47 @@
+body {
+	font-size: 14px;
+}
+
+.form-control {
+	margin-bottom: 7px;
+}
+
+.form-control label {
+	display: block;
+	margin-bottom: 2px;
+	font-weight: 500;
+}
+
+.form-control .server {
+	display: inline-block;
+	font-weight: normal;
+}
+
+.form-control input[type=text], .form-control input[type=password] {
+	display: block;
+	color: #444;
+	padding: 6px 10px;
+	width: 100%;
+	border: 1px solid #aaa;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	border-radius: 4px;
+	background: linear-gradient(to bottom, #ffffff 0%,#f3f3f3 100%);
+	box-sizing: border-box;
+}
+
+.form-control input[type=checkbox] {
+	width: 15px;
+	height: 15px;
+}
+
+.form-control .environment {
+	max-width: 100%;
+}
+
+.password {
+	margin-bottom: 10px;
+}
+
+.hidden {
+	display: none;
+}

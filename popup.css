@@ -1,0 +1,123 @@
+html {
+    width: 624px;
+    height: 428px;
+    overflow: hidden;
+}
+
+body {
+    position: relative;
+    overflow: hidden;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+}
+
+.server {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 280px;
+}
+
+.logo {
+    background: url("https://cleargov-common.s3.amazonaws.com/img/widgets/new-logo-white-bg-40pxtall.jpg");
+    width: 126px;
+    height: 25px;
+}
+
+.refresh {
+    background: #3B89B5;
+    color: #FFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 6px 21px 6px 18px;
+    border-radius: 4px;
+}
+
+.clients {
+    height: 370px;
+}
+
+.ui-grid-cell-contents.actions {
+    padding: 5px 10px;
+}
+
+.ui-grid .ui-grid-filter-container {
+    padding: 4px;
+}
+
+a {
+    color: #0088ff;
+    cursor: pointer;
+}
+
+.fa-star, .fa-user {
+    cursor: pointer;
+    float: right;
+    padding: 2px 3px;
+}
+
+.fa-star:hover {
+    color: #e8c100;
+}
+
+.fas.fa-star {
+    color: #e8c100;
+}
+
+.fa-user:hover {
+    color: #709ab3;
+}
+
+.fas.fa-user {
+    color: #709ab3;
+}
+
+.no-users .action-link {
+    display: none;
+}
+
+.no-users .fa-user {
+    display: none;
+}
+
+.clients .ui-grid-row .ui-grid-cell.active,
+.clients .ui-grid-row:hover .ui-grid-cell.active{
+    background-color: #d5eaee;
+}
+
+.users-holder {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.users {
+    width: 606px;
+    height: 223px;
+    background-color: #fff;
+    margin-bottom: -300px;
+    box-shadow: 0 0 0 0;
+    transition: margin-bottom .5s ease, box-shadow .2s ease;
+}
+
+.users-holder.active .users {
+    margin-bottom: 0;
+    box-shadow: 0 -2px 16px 0 rgb(144, 144, 144);
+}
+
+.close-users-panel {
+    color: #0c4882;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 1;
+    cursor: pointer;
+    padding: 7px;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="controller">
+<head>
+    <script src="vendor/lodash.min.js"></script>
+    <script src="vendor/angular.min.js"></script>
+    <script src="vendor/ui-grid.min.js"></script>
+    <script src="popup.js"></script>
+    <script src="clients.js"></script>
+    <script src="options.storage.js"></script>
+    <script src="featured-clients.js"></script>
+    <script src="promise-button.js"></script>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="dropdown.css">
+    <link rel="stylesheet" href="snackbar.css">
+    <link rel="stylesheet" href="promise-button.css">
+    <link rel="stylesheet" href="vendor/ui-grid.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="toolbar">
+    <div class="server">
+        <div class="logo"></div>
+        <select
+                ng-options="environment as environment.name for environment in environments track by environment.id" ng-model="selectedEnvironment"
+				ng-change="changeEnvironment()"
+                name="environment"
+                id="environment"
+                class="environment"
+        ></select>
+    </div>
+    <button class="refresh" promise-button="refresh()">Refresh</button>
+</div>
+<div ui-grid="clientsGridOptions" class="clients"></div>
+<div class="users-holder" ng-class="{active: activeClient}">
+    <i class="fas fa-angle-double-down close-users-panel" ng-click="toggleUsers()"></i>
+    <div ui-grid="usersGridOptions" class="users"></div>
+</div>
+<div id="snackbar"></div>
+</body>
+</html>
