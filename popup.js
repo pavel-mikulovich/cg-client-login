@@ -22,7 +22,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
             {
                 name: 'featured', displayName: 'Actions', cellTemplate: `
                 <div class="ui-grid-cell-contents actions" ng-class="{'no-users': !row.entity.users.length}">
-                    <a promise-button="grid.appScope.login(row.entity)" class="action-link">login</a>
+                    <a promise-button="grid.appScope.loginClient(row.entity)" class="action-link">login</a>
                     <i class="fa-star" ng-class="row.entity.featured ? 'fas' : 'far'" ng-click="grid.appScope.toggleFeatured(row.entity, 'client')"></i>
                     <i class="fa-user" ng-class="row.entity == grid.appScope.activeClient ? 'fas' : 'far'" ng-click="grid.appScope.toggleUsers(row.entity)"></i>
                 </div>`,
@@ -45,7 +45,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
             {
                 name: 'featured', displayName: 'Actions', cellTemplate: `
                 <div class="ui-grid-cell-contents actions" ng-if="row.entity.id >= 0">
-                    <a promise-button="grid.appScope.login(row.entity)" class="action-link">login</a>
+                    <a promise-button="grid.appScope.loginUser(row.entity)" class="action-link">login</a>
                     <i class="fa-star" ng-class="row.entity.featured ? 'fas' : 'far'" ng-click="grid.appScope.toggleFeatured(row.entity, 'user')"></i>
                 </div>`,
                 width: 110,
@@ -127,13 +127,21 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         featuredClients.setFeatured(list, type);
     };
 
-    $scope.login = function (client) {
-        if (!client.users) return Promise.resolve();
+    $scope.loginClient = function (client) {
+        if (_.isEmpty(client.users)) return Promise.resolve();
+        var featuredUser = client.users.find(user => user.featured);
+        var cgAdminUser = client.users.find(user => user.email.lastIndexOf('cleargov.com') > 0 && user.role_id === adminRoleId);
+        var adminUser = client.users.find(user => user.role_id === adminRoleId);
+        var user = featuredUser || cgAdminUser || adminUser || client.users[0];
+        return loginUser(user);
+    };
+
+    $scope.loginUser = function (user) {
+        return loginUser(user);
+    };
+
+    function loginUser(user) {
         return new Promise((resolve, reject) => {
-            var featuredUser = client.users.find(user => user.featured);
-            var cgAdminUser = client.users.find(user => user.email.lastIndexOf('cleargov.com') > 0 && user.role_id === adminRoleId);
-            var adminUser = client.users.find(user => user.role_id === adminRoleId);
-            var user = featuredUser || cgAdminUser || adminUser || client.users[0];
             return $http.post($scope.selectedEnvironment.host + '/login', {email: options.email, password: options.password})
                 .then(() => {
                     return loginAsUser(user).then(() => {
@@ -163,7 +171,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
             user.skipPassword = true;
             return $http.post($scope.selectedEnvironment.host + '/login', user);
         }
-    };
+    }
 
     $scope.toggleUsers = function (client) {
         if (!client || $scope.activeClient === client) { // hide when second click on same client
