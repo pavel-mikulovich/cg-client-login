@@ -21,17 +21,17 @@
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/cleargov-logo-icon-16.png",
-      "32": "images/cleargov-logo-icon-32.png",
-      "48": "images/cleargov-logo-icon-48.png",
-      "128": "images/cleargov-logo-icon-128.png"
+      "16": "images/blue/cleargov-logo-icon-16.png",
+      "32": "images/blue/cleargov-logo-icon-32.png",
+      "48": "images/blue/cleargov-logo-icon-48.png",
+      "128": "images/blue/cleargov-logo-icon-128.png"
     }
   },
   "icons": {
-    "16": "images/cleargov-logo-icon-16.png",
-    "32": "images/cleargov-logo-icon-32.png",
-    "48": "images/cleargov-logo-icon-48.png",
-    "128": "images/cleargov-logo-icon-128.png"
+    "16": "images/blue-background/cleargov-logo-icon-16.png",
+    "32": "images/blue-background/cleargov-logo-icon-32.png",
+    "48": "images/blue-background/cleargov-logo-icon-48.png",
+    "128": "images/blue-background/cleargov-logo-icon-128.png"
   },
   "manifest_version": 2
 }

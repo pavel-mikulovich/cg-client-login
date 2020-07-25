@@ -1,24 +1,15 @@
-// chrome.runtime.onInstalled.addListener(function() {
-//
-// 	chrome.storage.sync.set({color: '#3aa757'}, function() {
-// 		console.log('The color is green.');
-// 	});
-//
-// 	chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-// 		chrome.declarativeContent.onPageChanged.addRules([{
-// 			conditions: [
-// 				new chrome.declarativeContent.PageStateMatcher({
-// 					pageUrl: {hostEquals: 'cleargov-stage.herokuapp.com'},
-// 				}),
-// 				new chrome.declarativeContent.PageStateMatcher({
-// 					pageUrl: {hostEquals: 'cleargov-pre-prod.herokuapp.com'},
-// 				}),
-// 				new chrome.declarativeContent.PageStateMatcher({
-// 					pageUrl: {hostEquals: 'localhost:3000'},
-// 				}),
-// 			],
-// 			actions: [new chrome.declarativeContent.ShowPageAction()]
-// 		}]);
-// 	});
-//
-// });
+chrome.runtime.onInstalled.addListener(function () {
+
+    let imgFolder = `images/${window.matchMedia('(prefers-color-scheme: dark)').matches ? 'white' : 'blue'}/`;
+
+    chrome.browserAction.setIcon({
+        path: {
+            '16': imgFolder + 'cleargov-logo-icon-16.png',
+            '32': imgFolder + 'cleargov-logo-icon-32.png',
+            '48': imgFolder + 'cleargov-logo-icon-48.png',
+            '128': imgFolder + 'cleargov-logo-icon-128.png'
+        }
+    });
+
+
+});
