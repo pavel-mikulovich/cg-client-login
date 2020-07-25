@@ -15,8 +15,8 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         enableFiltering: true,
         enableGridMenu: true,
         columnDefs: [
-            {name: 'id', type: 'number', width: 60},
-            {name: 'name', width: 180},
+            {name: 'id', type: 'number', width: 55},
+            {name: 'name', width: 170},
             {name: 'state', field: 'state_short_name'},
             {name: 'type', field: 'municipality_type'},
             {
@@ -38,10 +38,11 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         enableFiltering: true,
         enableGridMenu: false,
         columnDefs: [
-            {name: 'id', type: 'number', width: 60},
-            {name: 'Email', field: 'email', width: 180},
+            {name: 'id', type: 'number', width: 55},
+            {name: 'Email', field: 'email', width: 170},
             {name: 'First Name', field: 'first_name'},
             {name: 'Last Name', field: 'last_name'},
+            {name: 'Role', field: 'role', width: 80},
             {
                 name: 'featured', displayName: 'Actions', cellTemplate: `
                 <div class="ui-grid-cell-contents actions" ng-if="row.entity.id >= 0">

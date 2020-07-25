@@ -1,5 +1,5 @@
 html {
-    width: 624px;
+    width: 640px;
     height: 428px;
     overflow: hidden;
 }
@@ -99,7 +99,7 @@ a {
 }
 
 .users {
-    width: 606px;
+    width: 622px;
     height: 223px;
     background-color: #fff;
     margin-bottom: -300px;

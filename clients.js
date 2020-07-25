@@ -22,7 +22,7 @@ angular.module("app").service("clients", function ($q, $http) {
                 .then(service._getData)
                 .then(([{data: clients}, {data: users}]) => {
                     clients = _.map(clients, c => _.pick(c, ['id', 'name', 'state_short_name', 'municipality_type']));
-                    users = _.map(users, c => _.pick(c, ['id', 'first_name', 'last_name', 'email', 'municipality', 'role_id']));
+                    users = _.map(users, c => _.pick(c, ['id', 'first_name', 'last_name', 'email', 'municipality', 'role_id', 'role']));
                     clients = initClientUsers(clients, users);
                     clients.push({id: 0, name: 'Backoffice', users: [{id: 0, first_name: options.first_name, last_name: options.last_name, email: options.email}]});
                     localStorage.setItem(getCacheKey(environment), JSON.stringify(clients));
