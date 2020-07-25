@@ -19,7 +19,7 @@
 <body>
 <div class="toolbar">
     <div class="server">
-        <div class="logo"></div>
+        <a class="logo" ng-href="{{selectedEnvironment.host}}" target="_blank"></a>
         <select
                 ng-options="environment as environment.name for environment in environments track by environment.id" ng-model="selectedEnvironment"
 				ng-change="changeEnvironment()"
@@ -27,6 +27,10 @@
                 id="environment"
                 class="environment"
         ></select>
+    </div>
+    <div class="quick-login" ng-if="showQuickLogin">
+        <input type="text" placeholder="Quick Login Id" ng-model="quickLoginId">
+        <a promise-button="loginByUserId(quickLoginId)" class="action-link">login</a>
     </div>
     <button class="refresh" promise-button="refresh()">Refresh</button>
 </div>

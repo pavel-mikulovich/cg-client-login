@@ -30,6 +30,26 @@ body {
     height: 25px;
 }
 
+.quick-login {
+    flex: 1 0 auto;
+    padding: 0 5px;
+    text-align: center;
+}
+
+.quick-login input {
+    width: 92px;
+    color: #444;
+    padding: 6px 10px;
+    margin-right: 2px;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    border-radius: 4px;
+}
+
+.quick-login input::placeholder {
+    color: #ccc;
+}
+
 .refresh {
     background: #3B89B5;
     color: #FFF;

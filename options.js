@@ -17,6 +17,7 @@ function init() {
         options = data;
         applyCheckboxes();
         applySelect();
+        applyCheckbox();
         applyText('first_name');
         applyText('last_name');
         applyText('email');
@@ -28,6 +29,19 @@ function init() {
                 if (!element) return;
                 element.checked = true;
             });
+        }
+
+        function applyCheckbox() {
+            var element = document.getElementById('show_quick_login');
+            var labelElement = document.getElementById('show_quick_login_label');
+            if (!element || !labelElement) return;
+            if (options.show_quick_login) {
+                element.checked = true;
+                labelElement.textContent = 'Yes';
+            } else {
+                element.checked = false;
+                labelElement.textContent = 'No';
+            }
         }
 
         function applyText(key) {
@@ -47,6 +61,14 @@ function bindEvents() {
     selectElement.onchange = () => {
         options.default_server = selectElement.value;
         saveOptions('default_server', options.default_server);
+    };
+
+    var quickLoginElement = document.getElementById('show_quick_login');
+    quickLoginElement.onchange = () => {
+        var labelElement = document.getElementById('show_quick_login_label');
+        options.show_quick_login = quickLoginElement.checked;
+        labelElement.textContent = options.show_quick_login ? 'Yes' : 'No';
+        saveOptions('show_quick_login', options.show_quick_login);
     };
 
     ['first_name', 'last_name', 'email', 'password'].forEach(field => {

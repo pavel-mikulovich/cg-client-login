@@ -13,7 +13,17 @@ body {
 }
 
 .form-control .server {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	font-weight: normal;
+}
+
+.form-control .show_quick_login_holder {
+	display: inline-flex;
+	align-items: center;
+}
+
+.form-control #show_quick_login_label {
 	font-weight: normal;
 }
 

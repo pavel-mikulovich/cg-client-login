@@ -9,6 +9,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
     var adminRoleId = 9;
 
     $scope.activeClient = null;
+    $scope.showQuickLogin = false;
 
     var clientCellTemplate = '<div ng-click="grid.appScope.toggleUsers(row.entity)" class="ui-grid-cell-contents client-clickable-cell" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>';
     $scope.clientsGridOptions = {
@@ -72,6 +73,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         function initOptions() {
             return readOptions().then(data => {
                 options = data;
+                $scope.showQuickLogin = options.show_quick_login;
             });
         }
 
@@ -139,6 +141,15 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
 
     $scope.loginUser = function (user) {
         return loginUser(user);
+    };
+
+    $scope.loginByUserId = function (id) {
+        var user = _($scope.clientsGridOptions.data).flatMap('users').find({id: parseInt(id)});
+        if (!user) {
+            return showErrorMessage('User Not Found');
+        } else {
+            return loginUser(user);
+        }
     };
 
     function loginUser(user) {

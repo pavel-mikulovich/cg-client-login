@@ -80,7 +80,9 @@ angular.module('promiseButton', [])
                                 scope.state = 'success';
                             })
                             .catch(function () {
-                                scope.state = 'error';
+                                $timeout(function () {
+                                    scope.state = 'error';
+                                }, 0);
                             })
                             .finally(function () {
                                 $timeout(function () {
