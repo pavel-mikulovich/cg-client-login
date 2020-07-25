@@ -57,6 +57,14 @@ a {
     cursor: pointer;
 }
 
+a:hover {
+    color: #2b4ece;
+}
+
+.client-clickable-cell {
+    cursor: pointer;
+}
+
 .fa-star, .fa-user {
     cursor: pointer;
     float: right;

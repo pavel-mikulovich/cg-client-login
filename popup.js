@@ -10,15 +10,16 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
 
     $scope.activeClient = null;
 
+    var clientCellTemplate = '<div ng-click="grid.appScope.toggleUsers(row.entity)" class="ui-grid-cell-contents client-clickable-cell" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>';
     $scope.clientsGridOptions = {
         rowTemplate: "<div ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.uid\" ui-grid-one-bind-id-grid=\"rowRenderIndex + '-' + col.uid + '-cell'\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader, active: row.entity == grid.appScope.activeClient }\" role=\"{{col.isRowHeader ? 'rowheader' : 'gridcell'}}\" ui-grid-cell></div>",
         enableFiltering: true,
         enableGridMenu: true,
         columnDefs: [
-            {name: 'id', type: 'number', width: 55},
-            {name: 'name', width: 170},
-            {name: 'state', field: 'state_short_name'},
-            {name: 'type', field: 'municipality_type'},
+            {name: 'id', type: 'number', width: 55, cellTemplate: clientCellTemplate},
+            {name: 'name', cellTemplate: clientCellTemplate},
+            {name: 'state', field: 'state_short_name', width: 140, cellTemplate: clientCellTemplate},
+            {name: 'type', field: 'municipality_type', width: 85, cellTemplate: clientCellTemplate},
             {
                 name: 'featured', displayName: 'Actions', cellTemplate: `
                 <div class="ui-grid-cell-contents actions" ng-class="{'no-users': !row.entity.users.length}">
@@ -39,10 +40,9 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         enableGridMenu: false,
         columnDefs: [
             {name: 'id', type: 'number', width: 55},
-            {name: 'Email', field: 'email', width: 170},
-            {name: 'First Name', field: 'first_name'},
-            {name: 'Last Name', field: 'last_name'},
-            {name: 'Role', field: 'role', width: 80},
+            {name: 'Email', field: 'email'},
+            {name: 'Name', field: 'first_name', width: 140, cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.first_name}} {{row.entity.last_name}}</div>'},
+            {name: 'Role', field: 'role', width: 85},
             {
                 name: 'featured', displayName: 'Actions', cellTemplate: `
                 <div class="ui-grid-cell-contents actions" ng-if="row.entity.id >= 0">
@@ -185,7 +185,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
             }, 300);
         }
 
-        function extendRows(rows) {
+        function extendRows(rows = []) {
             let minCount = 5;
             if (rows.length < minCount) {
                 rows = _.clone(rows);
