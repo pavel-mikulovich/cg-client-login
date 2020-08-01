@@ -1,10 +1,10 @@
-var app = angular.module("app", ['ui.grid', 'promiseButton']);
+angular.module("app", ['ui.grid', 'promiseButton'])
 
-app.config(function ($httpProvider) {
+.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-});
+})
 
-app.controller("controller", function ($scope, $http, $timeout, clients, featuredClients) {
+.controller("controller", function ($scope, $http, $timeout, clients, featuredClients) {
     var options;
     var adminRoleId = 9;
 
@@ -71,7 +71,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
             .then(reloadClients);
 
         function initOptions() {
-            return readOptions().then(data => {
+            return CG.optionsStorage.readOptions().then(data => {
                 options = data;
                 $scope.showQuickLogin = options.show_quick_login;
             });
@@ -143,7 +143,7 @@ app.controller("controller", function ($scope, $http, $timeout, clients, feature
         return loginUser(user);
     };
 
-    $scope.loginByUserId = function (id) {
+    $scope.loginByUserId = function (id = 0) {
         var user = _($scope.clientsGridOptions.data).flatMap('users').find({id: parseInt(id)});
         if (!user) {
             return showErrorMessage('User Not Found');
