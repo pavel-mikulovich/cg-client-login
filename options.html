@@ -7,6 +7,7 @@
 <body>
 <div class="form-control">
     <label>Server Options</label>
+    <label class="server" for="server_local"><input type="checkbox" class="server_option_checkbox" name="server_local" id="server_local">Local</label>
     <label class="server" for="server_dev"><input type="checkbox" class="server_option_checkbox" name="server_dev" id="server_dev">Dev</label>
     <label class="server" for="server_stage"><input type="checkbox" class="server_option_checkbox" name="server_stage" id="server_stage">Stage</label>
     <label class="server" for="server_pre_prod"><input type="checkbox" class="server_option_checkbox" name="server_pre_prod" id="server_pre_prod">Pre Prod</label>
@@ -15,6 +16,7 @@
 <div class="form-control">
     <label for="environment">Default Server (when opened outside CG)</label>
     <select name="environment" id="environment" class="environment ng-pristine ng-valid ng-not-empty ng-touched">
+        <option label="Local" value="local" selected="selected" id="default_server_option_local">Local</option>
         <option label="Dev" value="dev" selected="selected" id="default_server_option_dev">Dev</option>
         <option label="Stage" value="stage" id="default_server_option_stage">Stage</option>
         <option label="Pre-prod" value="pre-prod" id="default_server_option_pre_prod">Pre-prod</option>

@@ -1,6 +1,7 @@
 (function () {
     var options = null;
     var environments = [
+        {id: 'local', name: 'Local'},
         {id: 'dev', name: 'Dev'},
         {id: 'stage', name: 'Stage'},
         {id: 'pre_prod', name: 'Pre-prod'},
