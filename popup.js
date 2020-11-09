@@ -61,9 +61,9 @@ angular.module("app", ['ui.grid', 'promiseButton'])
 
         var environments = [
             {id: 'local', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev', name: 'Dev', host: 'http://cleargov-dev.herokuapp.com'},
+            {id: 'dev', name: 'Dev', host: 'http://dev.cleargov.com'},
             {id: 'stage', name: 'Stage', host: 'http://cleargov-stage.herokuapp.com'},
-            {id: 'pre_prod', name: 'Pre prod', host: 'http://cleargov-pre-prod.herokuapp.com'},
+            {id: 'pre_prod', name: 'Pre prod', host: 'http://preprod.cleargov.com'},
             {id: 'prod', name: 'Prod', host: 'https://www.cleargov.com'},
         ];
 
