@@ -19,7 +19,7 @@ angular.module("app").service("clients", function ($q, $http) {
 
             host = environment.host;
             return service._initSession(options)
-                .then(service._getData)
+                .then(() => service._getData(environment))
                 .then(([{data: clients}, {data: users}]) => {
                     clients = _.map(clients, c => _.pick(c, ['id', 'name', 'state_short_name', 'municipality_type']));
                     users = _.map(users, c => _.pick(c, ['id', 'first_name', 'last_name', 'email', 'municipality', 'role_id', 'role']));
@@ -99,7 +99,7 @@ angular.module("app").service("clients", function ($q, $http) {
             }
         },
 
-        _getData: function () {
+        _getData: function (environment) {
             var clientsUrl = host + '/api/municipalities/clients';
             var usersUrl = host + '/api/users';
             initListeners();
@@ -121,7 +121,7 @@ angular.module("app").service("clients", function ($q, $http) {
                 // remove original cookie
                 var headers = service._removeHeader(details.requestHeaders, 'cookie');
                 // replace with custom cookie
-                headers.push({name: 'Cookie', value: sessionRequestMetadata.cookie.valuePrefix + '=' + sessionRequestMetadata.cookie.value});
+                headers.push({name: 'Cookie', value: `${sessionRequestMetadata.cookie.valuePrefix}.${environment.server}` + '=' + sessionRequestMetadata.cookie.value});
                 return {requestHeaders: headers};
             }
 
