@@ -60,11 +60,11 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         };
 
         var environments = [
-            {id: 'local', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev', name: 'Dev', host: 'http://dev.cleargov.com'},
-            {id: 'stage', name: 'Stage', host: 'http://cleargov-stage.herokuapp.com'},
-            {id: 'pre_prod', name: 'Pre prod', host: 'http://preprod.cleargov.com'},
-            {id: 'prod', name: 'Prod', host: 'https://www.cleargov.com'},
+            {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000'},
+            {id: 'dev', server: 'stage-dev', name: 'Dev', host: 'http://dev.cleargov.com'},
+            {id: 'stage', server: 'stage', name: 'Stage', host: 'http://stage.cleargov.com'},
+            {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'http://preprod.cleargov.com'},
+            {id: 'prod', server: 'prod', name: 'Prod', host: 'https://www.cleargov.com'},
         ];
 
         init();
