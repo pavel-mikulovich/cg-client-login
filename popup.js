@@ -162,18 +162,29 @@ angular.module("app", ['ui.grid', 'promiseButton'])
                     .then(() => {
                         return loginAsUser(user).then(() => {
                             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                                var tab = _.first(tabs);
+                                let tab = _.first(tabs);
                                 if (!tab) return;
-                                var url = $scope.selectedEnvironment.host + '/' + (user.id ? 'admin' : 'backoffice');
+                                let url = $scope.selectedEnvironment.host + '/' + (user.id ? 'admin' : 'backoffice');
+                                let setLoginSrcContextStr = `localStorage.setItem('login_source', 'extension')`;
                                 if (_.startsWith(tab.url.toLowerCase(), 'chrome://newtab')) {
                                     // window.location works smoother, but not accessible on start page, so here is a workaround
-                                    chrome.tabs.update(tab.id, {url: url});
+                                    chrome.tabs.update(tab.id, {url: url}, function (newTab) {
+                                        let listener = (tabId, changeInfo, tab) => {
+                                            if (tabId === newTab.id && changeInfo.status === 'complete') {
+                                                chrome.tabs.executeScript(tab.id, {code: setLoginSrcContextStr});
+                                                chrome.tabs.onUpdated.removeListener(listener);
+                                                setTimeout(window.close, 100);
+                                            }
+                                        };
+                                        chrome.tabs.onUpdated.addListener(listener);
+                                    });
                                 } else {
                                     chrome.tabs.executeScript(tab.id, {code: `window.location = '${url}'`});
+                                    setTimeout(window.close, 100);
                                 }
-                                setTimeout(window.close, 100);
                             });
                         });
+
                     })
                     .catch(error => {
                         reject(error);
