@@ -5,6 +5,8 @@
         {id: 'dev', name: 'Dev'},
         {id: 'stage', name: 'Stage'},
         {id: 'pre_prod', name: 'Pre-prod'},
+        {id: 'jedi', name: 'Jedi'},
+        {id: 'doc', name: 'Doc'},
         {id: 'prod', name: 'Prod'},
     ];
 

@@ -42,10 +42,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
             columnDefs: [
                 {name: 'id', type: 'number', width: 55},
                 {name: 'Email', field: 'email'},
-                {
-                    name: 'Name', field: 'first_name', width: 140, cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.first_name}} {{row.entity.last_name}}</div>',
-                    filter: {condition: (searchTerm, cellValue, row) => _.includes(row.entity.first_name.toLowerCase(), searchTerm) || _.includes(row.entity.last_name.toLowerCase(), searchTerm)}
-                },
+                {name: 'Name', field: 'name'},
                 {name: 'Role', field: 'role', width: 85},
                 {
                     name: 'featured', displayName: 'Actions', cellTemplate: `
@@ -61,10 +58,12 @@ angular.module("app", ['ui.grid', 'promiseButton'])
 
         var environments = [
             {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev', server: 'stage-dev', name: 'Dev', host: 'http://dev.cleargov.com'},
-            {id: 'stage', server: 'stage', name: 'Stage', host: 'http://stage.getcleargov.com'},
-            {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'http://preprod.cleargov.com'},
-            {id: 'prod', server: 'prod', name: 'Prod', host: 'https://www.cleargov.com'},
+            {id: 'dev', server: 'stage-dev', name: 'Dev', host: 'https://dev.getcleargov.com'},
+            {id: 'stage', server: 'stage', name: 'Stage', host: 'https://stage.getcleargov.com'},
+            {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'https://preprod.getcleargov.com'},
+            {id: 'jedi', server: 'jedi', name: 'Jedi', host: 'https://jedi.getcleargov.com'},
+            {id: 'doc', server: 'doc', name: 'Doc', host: 'https://doc.getcleargov.com'},
+            {id: 'prod', server: 'prod', name: 'Prod', host: 'https://cleargov.com'},
         ];
 
         init();

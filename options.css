@@ -16,6 +16,7 @@ body {
 	display: inline-flex;
 	align-items: center;
 	font-weight: normal;
+	width: 80px;
 }
 
 .form-control .show_quick_login_holder {
