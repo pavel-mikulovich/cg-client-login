@@ -1,4 +1,4 @@
-angular.module("app").service("clients", function ($q, $http) {
+angular.module("app").service("clients", function ($q, $http, clientsStorage) {
     var sessionRequestMetadata = {
         header: 'Meta-CG-extension',
         cookie: {
@@ -13,7 +13,7 @@ angular.module("app").service("clients", function ($q, $http) {
         getClients: function (options, environment, refresh) {
 
             if (!refresh) {
-                var clients = getFromCache(environment);
+                var clients = clientsStorage.getFromCache(environment);
                 if (clients) return $q.resolve(clients);
             }
 
@@ -21,35 +21,21 @@ angular.module("app").service("clients", function ($q, $http) {
             return service._initSession(options)
                 .then(() => service._getData(environment))
                 .then(([{data: clients}, {data: users}]) => {
-                    clients = _.map(clients, c => _.pick(c, ['id', 'name', 'state_short_name', 'municipality_type']));
+                    clients = _.map(clients, c =>  _.pick(c, ['id', 'name', 'state_short_name', 'municipality_type']));
                     users = _.map(users, c => _.pick(c, ['id', 'first_name', 'last_name', 'email', 'municipality', 'role_id', 'role']));
-                    clients = initClientUsers(clients, users);
-                    clients.push({id: 0, name: 'Backoffice', users: [{id: 0, first_name: options.first_name, last_name: options.last_name, email: options.email}]});
-                    localStorage.setItem(getCacheKey(environment), JSON.stringify(clients));
+                    users = initUserName(users);
+                    clients = clientsStorage.mapUsersToClients(clients, users);
+                    clients.push({id: 0, name: 'Backoffice', users: [{id: 0, municipality: 0, name: [options.first_name, options.last_name].join(' '), email: options.email}]});
+                    clientsStorage.saveToCache(clients, environment);
                     return clients;
-
-                    function initClientUsers(clients, users) {
-                        let clientsHashMap = {};
-                        clients.forEach(client => clientsHashMap[client.id] = client);
-                        users.forEach(user => {
-                            if (!user.municipality) return;
-                            let client = clientsHashMap[user.municipality];
-                            if (!client) return;
-                            client.users = client.users || [];
-                            client.users.push(user);
-                        });
-                        return clients;
-                    }
                 });
 
-            function getCacheKey(environment) {
-                return 'cg_client_login_clients_' + environment.id;
-            }
-
-            function getFromCache(environment) {
-                var str = localStorage.getItem(getCacheKey(environment));
-                if (!str) return;
-                return JSON.parse(str);
+            function initUserName(users) {
+                return _.forEach(users, user => {
+                   user.name = [user.first_name, user.last_name].join(' ');
+                   delete user.first_name;
+                   delete user.last_name;
+                });
             }
         },
 

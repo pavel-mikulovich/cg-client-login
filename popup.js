@@ -147,7 +147,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         };
 
         $scope.loginByUserId = function (id = 0) {
-            var user = _($scope.clientsGridOptions.data).flatMap('users').find({id: parseInt(id)});
+            var user = _($scope.clientsGridOptions.data).flatMap('users').find(u => u.id == id);
             if (!user) {
                 return showErrorMessage('User Not Found');
             } else {
@@ -163,7 +163,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
                             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                                 let tab = _.first(tabs);
                                 if (!tab) return;
-                                let url = $scope.selectedEnvironment.host + '/' + (user.id ? 'admin' : 'backoffice');
+                                let url = $scope.selectedEnvironment.host + '/' + (+user.id ? 'admin' : 'backoffice');
                                 let setLoginSrcContextStr = `localStorage.setItem('login_source', 'extension')`;
                                 if (_.startsWith(tab.url.toLowerCase(), 'chrome://newtab')) {
                                     // window.location works smoother, but not accessible on start page, so here is a workaround
