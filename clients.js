@@ -77,7 +77,9 @@ angular.module("app").service("clients", function ($q, $http, clientsStorage) {
 
             function onHeadersReceivedListener(details) {
                 if (details.requestId !== requestId) return;
-                var sessionHeader = details.responseHeaders.find(h => h.name.toLowerCase() === 'set-cookie');
+                var sessionHeader = details.responseHeaders.find(h => {
+                    return h.name.toLowerCase() === 'set-cookie' && _.includes(h.value, sessionRequestMetadata.cookie.valuePrefix);
+                });
                 if (!sessionHeader) return {responseHeaders: details.responseHeaders};
                 var sessionCookie = sessionHeader.value.split('; ')[0].split('=')[1];
                 sessionRequestMetadata.cookie.value = sessionCookie;
