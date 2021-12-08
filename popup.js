@@ -33,6 +33,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
             ],
             onRegisterApi: function (apiObject) {
                 $scope.clientsGridOptions.gridApi = apiObject;
+                refreshTable();
             }
         };
 
@@ -58,8 +59,12 @@ angular.module("app", ['ui.grid', 'promiseButton'])
 
         var environments = [
             {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev', server: 'stage-dev', name: 'Dev', host: 'https://dev.getcleargov.com'},
-            {id: 'stage', server: 'stage', name: 'Stage', host: 'https://stage.getcleargov.com'},
+            {id: 'dev1', server: 'stage-dev', name: 'Dev1', host: 'https://dev1.getcleargov.com'},
+            {id: 'dev2', server: 'stage-dev', name: 'Dev2', host: 'https://dev2.getcleargov.com'},
+            {id: 'dev3', server: 'stage-dev', name: 'Dev3', host: 'https://dev3.getcleargov.com'},
+            {id: 'dev4', server: 'stage-dev', name: 'Dev4', host: 'https://dev4.getcleargov.com'},
+            {id: 'dev5', server: 'stage-dev', name: 'Dev5', host: 'https://dev5.getcleargov.com'},
+            {id: 'dev6', server: 'stage-dev', name: 'Dev6', host: 'https://dev6.getcleargov.com'},
             {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'https://preprod.getcleargov.com'},
             {id: 'jedi', server: 'jedi', name: 'Jedi', host: 'https://jedi.getcleargov.com'},
             {id: 'doc', server: 'doc', name: 'Doc', host: 'https://doc.getcleargov.com'},
@@ -120,8 +125,16 @@ angular.module("app", ['ui.grid', 'promiseButton'])
                     featuredClients.initFeaturedClients(clients);
                     featuredClients.sortFeaturedOnTop(clients);
                     $scope.clientsGridOptions.data = clients;
+                    refreshTable();
                 })
                 .catch(showErrorMessage);
+        }
+
+        function refreshTable() {
+            setTimeout(() => {
+                if (!$scope.clientsGridOptions.gridApi) return;
+                $scope.clientsGridOptions.gridApi.core.notifyDataChange('column');
+            }, 100);
         }
 
         $scope.toggleFeatured = function (entity, type) {

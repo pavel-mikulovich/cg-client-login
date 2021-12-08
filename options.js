@@ -2,8 +2,12 @@
     var options = null;
     var environments = [
         {id: 'local', name: 'Local'},
-        {id: 'dev', name: 'Dev'},
-        {id: 'stage', name: 'Stage'},
+        {id: 'dev1', name: 'Dev1'},
+        {id: 'dev2', name: 'Dev2'},
+        {id: 'dev3', name: 'Dev3'},
+        {id: 'dev4', name: 'Dev4'},
+        {id: 'dev5', name: 'Dev5'},
+        {id: 'dev6', name: 'Dev6'},
         {id: 'pre_prod', name: 'Pre-prod'},
         {id: 'jedi', name: 'Jedi'},
         {id: 'doc', name: 'Doc'},

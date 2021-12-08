@@ -9,7 +9,7 @@
                 optionKeys.forEach(key => {
                     options[key] = data[optionsKey + key];
                 });
-                options.server_options = options.server_options || ['dev', 'stage', 'pre_prod', 'prod'];
+                options.server_options = options.server_options || ['dev1', 'pre_prod', 'prod'];
                 options.default_server = options.default_server || 'prod';
                 resolve(options);
             });
