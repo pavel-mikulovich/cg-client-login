@@ -105,7 +105,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         }
 
         $scope.changeEnvironment = function () {
-            reloadClients();
+            // reloadClients();
         };
 
         $scope.refresh = function () {

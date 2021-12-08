@@ -69,6 +69,6 @@ angular.module("app").service("clientsStorage", function () {
     return service;
 
     function getCacheKey(environment) {
-        return 'cg_client_login_clients_' + environment.id;
+        return 'cg_client_login_clients';
     }
 });
