@@ -160,7 +160,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         };
 
         $scope.loginByUserId = function (id = 0) {
-            var user = _($scope.clientsGridOptions.data).flatMap('users').find(u => u.id == id);
+            var user = _($scope.clientsGridOptions.data).flatMap('users').compact().find(u => u.id == id);
             if (!user) {
                 return showErrorMessage('User Not Found');
             } else {
