@@ -59,12 +59,12 @@ angular.module("app", ['ui.grid', 'promiseButton'])
 
         var environments = [
             {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev1', server: 'stage-dev', name: 'Dev1', host: 'https://dev1.getcleargov.com'},
-            {id: 'dev2', server: 'stage-dev', name: 'Dev2', host: 'https://dev2.getcleargov.com'},
-            {id: 'dev3', server: 'stage-dev', name: 'Dev3', host: 'https://dev3.getcleargov.com'},
-            {id: 'dev4', server: 'stage-dev', name: 'Dev4', host: 'https://dev4.getcleargov.com'},
-            {id: 'dev5', server: 'stage-dev', name: 'Dev5', host: 'https://dev5.getcleargov.com'},
-            {id: 'dev6', server: 'stage-dev', name: 'Dev6', host: 'https://dev6.getcleargov.com'},
+            {id: 'dev1', server: 'dev1', name: 'Dev1', host: 'https://dev1.getcleargov.com'},
+            {id: 'dev2', server: 'dev2', name: 'Dev2', host: 'https://dev2.getcleargov.com'},
+            {id: 'dev3', server: 'dev3', name: 'Dev3', host: 'https://dev3.getcleargov.com'},
+            {id: 'dev4', server: 'dev4', name: 'Dev4', host: 'https://dev4.getcleargov.com'},
+            {id: 'dev5', server: 'dev5', name: 'Dev5', host: 'https://dev5.getcleargov.com'},
+            {id: 'dev6', server: 'dev6', name: 'Dev6', host: 'https://dev6.getcleargov.com'},
             {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'https://preprod.getcleargov.com'},
             {id: 'jedi', server: 'jedi', name: 'Jedi', host: 'https://jedi.getcleargov.com'},
             {id: 'doc', server: 'doc', name: 'Doc', host: 'https://doc.getcleargov.com'},
