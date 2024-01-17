@@ -4,7 +4,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
     })
 
-    .controller("controller", function ($scope, $http, $timeout, clients, featuredClients) {
+    .controller("controller", function ($q, $scope, $http, $timeout, clients, featuredClients) {
         var options;
         var adminRoleId = 9;
 
@@ -58,17 +58,17 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         };
 
         var environments = [
-            {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000'},
-            {id: 'dev1', server: 'dev1', name: 'Dev1', host: 'https://dev1.getcleargov.com'},
-            {id: 'dev2', server: 'dev2', name: 'Dev2', host: 'https://dev2.getcleargov.com'},
-            {id: 'dev3', server: 'dev3', name: 'Dev3', host: 'https://dev3.getcleargov.com'},
-            {id: 'dev4', server: 'dev4', name: 'Dev4', host: 'https://dev4.getcleargov.com'},
-            {id: 'dev5', server: 'dev5', name: 'Dev5', host: 'https://dev5.getcleargov.com'},
-            {id: 'dev6', server: 'dev6', name: 'Dev6', host: 'https://dev6.getcleargov.com'},
-            {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'https://preprod.getcleargov.com'},
-            {id: 'jedi', server: 'jedi', name: 'Jedi', host: 'https://jedi.getcleargov.com'},
-            {id: 'doc', server: 'doc', name: 'Doc', host: 'https://doc.getcleargov.com'},
-            {id: 'prod', server: 'prod', name: 'Prod', host: 'https://cleargov.com'},
+            {id: 'local', server: 'dev', name: 'Local', host: 'http://localhost:3000', adminUrl: 'http://localhost:4200/app/home'},
+            {id: 'dev1', server: 'dev1', name: 'Dev1', host: 'https://dev1.getcleargov.com', adminUrl: 'https://dev1.getcleargov.com/app/home'},
+            {id: 'dev2', server: 'dev2', name: 'Dev2', host: 'https://dev2.getcleargov.com', adminUrl: 'https://dev2.getcleargov.com/app/home'},
+            {id: 'dev3', server: 'dev3', name: 'Dev3', host: 'https://dev3.getcleargov.com', adminUrl: 'https://dev3.getcleargov.com/app/home'},
+            {id: 'dev4', server: 'dev4', name: 'Dev4', host: 'https://dev4.getcleargov.com', adminUrl: 'https://dev4.getcleargov.com/app/home'},
+            {id: 'dev5', server: 'dev5', name: 'Dev5', host: 'https://dev5.getcleargov.com', adminUrl: 'https://dev5.getcleargov.com/app/home'},
+            {id: 'dev6', server: 'dev6', name: 'Dev6', host: 'https://dev6.getcleargov.com', adminUrl: 'https://dev6.getcleargov.com/app/home'},
+            {id: 'pre_prod', server: 'pre-prod', name: 'Pre prod', host: 'https://preprod.getcleargov.com', adminUrl: 'https://preprod.getcleargov.com/app/home'},
+            {id: 'jedi', server: 'jedi', name: 'Jedi', host: 'https://jedi.getcleargov.com', adminUrl: 'https://jedi.getcleargov.com/app/home'},
+            {id: 'doc', server: 'doc', name: 'Doc', host: 'https://doc.getcleargov.com', adminUrl: 'https://doc.getcleargov.com/app/home'},
+            {id: 'prod', server: 'prod', name: 'Prod', host: 'https://cleargov.com', adminUrl: 'https://cleargov.com/app/home'},
         ];
 
         init();
@@ -76,7 +76,9 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         function init() {
             return initOptions()
                 .then(initEnvironment)
-                .then(reloadClients);
+                .then(() => {
+                    reloadClients(false, true);
+                });
 
             function initOptions() {
                 return CG.optionsStorage.readOptions().then(data => {
@@ -93,8 +95,7 @@ angular.module("app", ['ui.grid', 'promiseButton'])
 
                     // 2. init selected environment
                     var defaultServer = options.default_server;
-                    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                        var tab = tabs[0];
+                    chrome.tabs.query({active: true, currentWindow: true}, function ([tab]) {
                         if (!tab) return;
                         $scope.selectedEnvironment = findEnv($scope.environments, tab.url) // by current url
                             || _.find($scope.environments, {id: defaultServer}) // by settings
@@ -118,16 +119,62 @@ angular.module("app", ['ui.grid', 'promiseButton'])
             return reloadClients(true);
         };
 
-        function reloadClients(refresh) {
-            $scope.clientsGridOptions.data = [];
-            return clients
-                .getClients(options, $scope.selectedEnvironment, refresh).then(function (clients) {
-                    featuredClients.initFeaturedClients(clients);
-                    featuredClients.sortFeaturedOnTop(clients);
-                    $scope.clientsGridOptions.data = clients;
-                    refreshTable();
-                })
-                .catch(showErrorMessage);
+        function reloadClients(refresh, skipRelocate) {
+            const def = $q.defer();
+
+            if (skipRelocate) {
+                reload(def);
+            } else {
+                locateToClearGov((err) => {
+                    if (err) {
+                        showErrorMessage(err);
+                        def.reject();
+                        return;
+                    }
+
+                    reload(def);
+                });
+            }
+
+            return def.promise;
+
+            function reload(def) {
+                $scope.clientsGridOptions.data = [];
+                return clients
+                    .getClients(options, $scope.selectedEnvironment, refresh).then(function (clients) {
+                        featuredClients.initFeaturedClients(clients);
+                        featuredClients.sortFeaturedOnTop(clients);
+                        $scope.clientsGridOptions.data = clients;
+                        refreshTable();
+                        def.resolve();
+                    })
+                    .catch(() => {
+                        showErrorMessage();
+                        def.reject();
+                    });
+            }
+        }
+
+        // locate needed to connect cookies in between extension and browser page
+        function locateToClearGov(callback) {
+            chrome.tabs.query({ active: true, currentWindow: true }, function ([tab]) {
+                if (!tab) return;
+                // no need to locate if already there
+                if (_.startsWith(tab.url.toLowerCase(), $scope.selectedEnvironment.host)) {
+                    callback();
+                    return;
+                }
+
+                chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    func: (url) => {
+                        window.location = url;
+                    },
+                    args: [$scope.selectedEnvironment.host],
+                });
+
+                setTimeout(callback, 1000)
+            });
         }
 
         function refreshTable() {
@@ -169,40 +216,35 @@ angular.module("app", ['ui.grid', 'promiseButton'])
         };
 
         function loginUser(user) {
-            return new Promise((resolve, reject) => {
-                return $http.post($scope.selectedEnvironment.host + '/login', {email: options.email, password: options.password})
+            const def = $q.defer();
+            locateToClearGov(() => {
+                $http.post($scope.selectedEnvironment.host + '/login', {email: options.email, password: options.password})
                     .then(() => {
                         return loginAsUser(user).then(() => {
-                            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                                let tab = _.first(tabs);
+                            chrome.tabs.query({ active: true, currentWindow: true }, function ([tab]) {
                                 if (!tab) return;
-                                let url = $scope.selectedEnvironment.host + '/' + (+user.id ? 'admin' : 'backoffice');
-                                let setLoginSrcContextStr = `localStorage.setItem('login_source', 'extension')`;
-                                if (_.startsWith(tab.url.toLowerCase(), 'chrome://newtab')) {
-                                    // window.location works smoother, but not accessible on start page, so here is a workaround
-                                    chrome.tabs.update(tab.id, {url: url}, function (newTab) {
-                                        let listener = (tabId, changeInfo, tab) => {
-                                            if (tabId === newTab.id && changeInfo.status === 'complete') {
-                                                chrome.tabs.executeScript(tab.id, {code: setLoginSrcContextStr});
-                                                chrome.tabs.onUpdated.removeListener(listener);
-                                                setTimeout(window.close, 100);
-                                            }
-                                        };
-                                        chrome.tabs.onUpdated.addListener(listener);
-                                    });
-                                } else {
-                                    chrome.tabs.executeScript(tab.id, {code: `window.location = '${url}'`});
-                                    setTimeout(window.close, 100);
-                                }
+                                let url = +user.id
+                                    ? $scope.selectedEnvironment.adminUrl
+                                    : `${$scope.selectedEnvironment.host}/backoffice`
+                                chrome.scripting.executeScript({
+                                    target: { tabId: tab.id },
+                                    func: (url) => {
+                                        localStorage.setItem('login_source', 'extension');
+                                        window.location = url;
+                                    },
+                                    args: [url],
+                                });
+                                setTimeout(window.close, 100);
                             });
                         });
 
                     })
                     .catch(error => {
-                        reject(error);
+                        def.reject(error);
                         return showErrorMessage(error);
                     });
             });
+            return def.promise;
 
             function loginAsUser(user) {
                 if (user.email === options.email) return Promise.resolve();
